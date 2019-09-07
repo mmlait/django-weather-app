@@ -1,0 +1,55 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  <title>Weather</title>
+</head>
+<body>
+
+  <form method="POST" action="{% url 'search' %}">
+    {% csrf_token %}
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        {{ form.name }}
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-info">
+          Search
+        </button>
+      </div>
+    </div>
+  </form>
+
+  {% if city_weather %}
+    <img src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png" alt="current-weather-image">
+                    
+    <p>
+      <span>{{ city_weather.city }}</span>
+      <br>
+      <span>{{ city_weather.temperature }} C</span>
+      <br> {{ city_weather.description }}
+    </p>
+
+    {% for forecast in five_day_forecast %}
+    <div class="box">
+      <span>{{ forecast.dt_txt }}</span>
+      <img src="http://openweathermap.org/img/w/{{ forecast.weather.0.icon }}.png" alt="forecast-image">
+        <p>
+          <span>{{ forecast.main.temp }} C</span>
+          <br> {{ forecast.weather.0.description }}
+        </p>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>{{ err_msg }}</p>
+  {% endif %}
+
+</body>
+</html>
