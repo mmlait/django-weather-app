@@ -15,12 +15,12 @@
 
   <form method="POST" action="{% url 'search' %}">
     {% csrf_token %}
-    <div class="field has-addons">
-      <div class="control is-expanded">
+    <div>
+      <div>
         {{ form.name }}
       </div>
       <div class="control">
-        <button type="submit" class="button is-info">
+        <button type="submit">
           Search
         </button>
       </div>
@@ -38,7 +38,7 @@
     </p>
 
     {% for forecast in five_day_forecast %}
-    <div class="box">
+    <div>
       <span>{{ forecast.dt_txt }}</span>
       <img src="http://openweathermap.org/img/w/{{ forecast.weather.0.icon }}.png" alt="forecast-image">
         <p>
